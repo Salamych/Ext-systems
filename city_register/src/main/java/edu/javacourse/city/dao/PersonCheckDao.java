@@ -24,31 +24,32 @@ public class PersonCheckDao {
             + "and a.street_code = ? "
             + "and upper(a.building) = upper(?) ";
 
-    public PersonCheckDao() {
-        try{
-        Class.forName("org.postgresql.Driver");
-        }catch(Exception e){
-        e.printStackTrace();
-        }
+    private ConnectionBuilder connectionBuilder;
+
+    public void setConnectionBuilder(ConnectionBuilder connectionBuilder) {
+        this.connectionBuilder = connectionBuilder;
+    }
+
+    private Connection getConnection() throws SQLException {
+        return connectionBuilder.getConnection();
     }
 
     public PersonResponse checkPerson(PersonRequest request) throws PersonCheckerException {
         PersonResponse response = new PersonResponse();
-        
+
         String sql = SQL_REQUEST;
-        if(request.getExtension() != null){
-        sql += "and upper(a.extension) = upper(?) ";
+        if (request.getExtension() != null) {
+            sql += "and upper(a.extension) = upper(?) ";
         } else {
-        sql += "and a.extension is null ";
+            sql += "and a.extension is null ";
         }
-        if(request.getApartment() != null){
-        sql += "and upper(a.apartment) = upper(?)";
+        if (request.getApartment() != null) {
+            sql += "and upper(a.apartment) = upper(?)";
         } else {
-        sql += "and a.apartment is null ";
+            sql += "and a.apartment is null ";
         }
-        
-        try ( Connection con = getConnection();  
-                PreparedStatement stmt = con.prepareStatement(sql)) {
+
+        try ( Connection con = getConnection();  PreparedStatement stmt = con.prepareStatement(sql)) {
 
             int count = 1;
             stmt.setString(count++, request.getSurName());
@@ -57,13 +58,13 @@ public class PersonCheckDao {
             stmt.setDate(count++, java.sql.Date.valueOf(request.getDateOfBirth()));
             stmt.setInt(count++, request.getStreetCode());
             stmt.setString(count++, request.getBuilding());
-            if(request.getExtension() != null){
-            stmt.setString(count++, request.getExtension());
+            if (request.getExtension() != null) {
+                stmt.setString(count++, request.getExtension());
             }
-            if(request.getApartment() != null){
-            stmt.setString(count++, request.getApartment());
+            if (request.getApartment() != null) {
+                stmt.setString(count++, request.getApartment());
             }
-            
+
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 response.setRegistered(true);
@@ -75,8 +76,4 @@ public class PersonCheckDao {
         return response;
     }
 
-    private Connection getConnection() throws SQLException {
-        return DriverManager.getConnection("jdbc:postgresql://localhost/city_register", 
-                "postgres", "postgres");
-    }
 }
