@@ -6,6 +6,7 @@ import edu.javacourse.register.view.MarriageResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service("controller")
@@ -15,6 +16,7 @@ public class MarriageController {
             .getLogger(MarriageController.class);
     
     @Autowired
+    @Qualifier("marriageService")
     private MarriageManager marriageManager;
 
     public MarriageResponse findMarriageCertificate(MarriageRequest request) {
