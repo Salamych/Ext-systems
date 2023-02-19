@@ -5,7 +5,10 @@ import edu.javacourse.register.view.MarriageRequest;
 import jakarta.persistence.EntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MarriageDao {
     
      private final static Logger LOGGER = LoggerFactory
@@ -13,6 +16,7 @@ public class MarriageDao {
      
      private EntityManager entityManager;
      
+     @Value("${test.value}")
      private String test;
      
     public MarriageCertificate findMarriageCertificate(MarriageRequest request){
