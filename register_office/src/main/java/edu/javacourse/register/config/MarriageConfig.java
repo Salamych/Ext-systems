@@ -6,11 +6,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource(value = "classpath:/register.properties")
-public class MarriageConfig {
-    
+@PropertySource(value = {"classpath:/register.properties"})
+public class MarriageConfig
+{
     @Bean
-    public PersonDao buildPerson(){
+    public PersonDao buildPersonDao() {
         System.out.println("PersonDao is created");
         return new PersonDao();
     }

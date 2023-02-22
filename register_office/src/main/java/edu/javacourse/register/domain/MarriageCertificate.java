@@ -1,42 +1,42 @@
 package edu.javacourse.register.domain;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.Table;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Table(name = "ro_marriage_certificate")
 @Entity
 @NamedQuery(name = "MarriageCertificate.findByNum",
         query = "SELECT mc FROM MarriageCertificate mc WHERE mc.number = :number")
-public class MarriageCertificate {
-    
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-@Column(name = "marriage_certificate_id")    
-private Long marriageCertificateId;
-@Column(name = "number_certificate")
-private String number;
-@Column(name = "date_issue")
-private LocalDate issueDate;
-@ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
-@JoinColumn(name = "husband_id")
-private PersonMale husband;
-@ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
-@JoinColumn(name = "wife_id")
-private PersonFemale wife;
-@Column(name = "active")
-private boolean active;
-@Column(name = "end_date")
-private LocalDate endDate;
+public class MarriageCertificate
+{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "marriage_certificate_id")
+    private Long marriageCertificateId;
+    @Column(name = "number_certificate")
+    private String number;
+    @Column(name = "date_issue")
+    private LocalDate issueDate;
+    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "husband_id")
+    private PersonMale husband;
+    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "wife_id")
+    private PersonFemale wife;
+    @Column(name = "active")
+    private boolean active;
+    @Column(name = "end_date")
+    private LocalDate endDate;
 
     public Long getMarriageCertificateId() {
         return marriageCertificateId;
@@ -93,6 +93,4 @@ private LocalDate endDate;
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
-
-
 }

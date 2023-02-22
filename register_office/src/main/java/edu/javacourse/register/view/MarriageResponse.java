@@ -2,7 +2,8 @@ package edu.javacourse.register.view;
 
 import java.io.Serializable;
 
-public class MarriageResponse implements Serializable{
+public class MarriageResponse implements Serializable
+{
     private boolean existing;
 
     public boolean isExisting() {
@@ -12,5 +13,4 @@ public class MarriageResponse implements Serializable{
     public void setExisting(boolean existing) {
         this.existing = existing;
     }
-    
 }

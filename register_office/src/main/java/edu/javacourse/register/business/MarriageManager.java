@@ -8,22 +8,22 @@ import edu.javacourse.register.domain.PersonFemale;
 import edu.javacourse.register.domain.PersonMale;
 import edu.javacourse.register.view.MarriageRequest;
 import edu.javacourse.register.view.MarriageResponse;
-import jakarta.transaction.Transactional;
-import java.time.LocalDate;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Service("marriageService")
 @Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
-public class MarriageManager {
-
-    private final static Logger LOGGER = LoggerFactory
-            .getLogger(MarriageManager.class);
+public class MarriageManager
+{
+    private static final Logger LOGGER = LoggerFactory.getLogger(MarriageManager.class);
 
     @Autowired
     private MarriageDao marriageDao;
@@ -36,22 +36,20 @@ public class MarriageManager {
 
         personDao.addPerson(getPerson(1));
         personDao.addPerson(getPerson(2));
-        
+
         MarriageCertificate mc = getMarriageCertificate();
         marriageDao.saveAndFlush(mc);
-        
+
+//        marriageDao.findAll();
 //        marriageDao.findById(1L);
-        
         List<MarriageCertificate> list = marriageDao.findByNumber("12345");
-        list.forEach(m -> LOGGER.info("MC: {}", m.getMarriageCertificateId()));
-        
-        LOGGER.info("------>>>>>>>>>>>>>>>>>>>>");
+        list.forEach(m -> LOGGER.info("MC:{}", m.getMarriageCertificateId()));
+        LOGGER.info("----- >>>>>");
         List<MarriageCertificate> list2 = marriageDao.findByNum("98765");
-        list2.forEach(m -> LOGGER.info("MC: {}", m.getMarriageCertificateId()));
-        
-        LOGGER.info("------>>>>>>>>>>>>>>>>>>>>");
+        list2.forEach(m -> LOGGER.info("MC:{}", m.getMarriageCertificateId()));
+        LOGGER.info("----- >>>>>");
         List<MarriageCertificate> list3 = marriageDao.findSomething("01928");
-        list3.forEach(m -> LOGGER.info("MC: {}", m.getMarriageCertificateId()));
+        list3.forEach(m -> LOGGER.info("MC:{}", m.getMarriageCertificateId()));
 
         return new MarriageResponse();
     }
@@ -63,13 +61,14 @@ public class MarriageManager {
         mc.setActive(true);
 
         List<Person> persons = personDao.findPersons();
-        for (Person person : persons) {
+        for(Person person : persons) {
             if (person instanceof PersonMale) {
-                mc.setHusband((PersonMale) person);
+                mc.setHusband((PersonMale)person);
             } else {
-                mc.setWife((PersonFemale) person);
+                mc.setWife((PersonFemale)person);
             }
         }
+
         return mc;
     }
 
@@ -81,5 +80,4 @@ public class MarriageManager {
         m.setDateOfBirth(LocalDate.of(1991, 3, 12));
         return m;
     }
-
 }
