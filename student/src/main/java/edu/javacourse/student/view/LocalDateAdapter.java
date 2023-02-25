@@ -1,0 +1,23 @@
+
+package edu.javacourse.student.view;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
+public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
+
+     private static final String PATTERN = "dd.MM.yyyy";
+     
+    @Override
+    public LocalDate unmarshal(String vt) throws Exception {
+        return LocalDate.parse(vt, DateTimeFormatter.ofPattern(PATTERN));
+    }
+
+    @Override
+    public String marshal(LocalDate bt) throws Exception {
+        return bt.format(DateTimeFormatter.ofPattern(PATTERN));
+    }
+   
+
+}
